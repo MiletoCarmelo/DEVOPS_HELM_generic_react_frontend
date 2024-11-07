@@ -9,8 +9,8 @@ echo -n '{
   "auths": {
     "ghcr.io": {
       "username": "MiletoCarmelo",
-      "password": "'$(cat $PAT_FILE)'",
-      "auth": "'$(echo -n "MiletoCarmelo:$(cat $PAT_FILE)" | base64)'"
+      "password": "VOTRE_PAT",
+      "auth": "'$(echo -n "MiletoCarmelo:VOTRE_PAT" | base64)'"
     }
   }
 }' > docker-config.json
@@ -26,7 +26,6 @@ kubeseal \
   --controller-namespace=sealed-secrets \
   --controller-name=sealed-secrets \
   --format yaml \
-  --scope namespace-wide \
   < temp-secret.yaml > sealed-secret.yaml
 
 # Nettoyer les fichiers temporaires
