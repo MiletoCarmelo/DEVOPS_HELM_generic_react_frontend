@@ -1,15 +1,21 @@
 technicalSecret:
   type: "sealedSecret"
+
 module: react
+
 environment: generic
+
 replicas: 1
+
 service:
   type: ClusterIP
   port: 80
   targetPort: 80
+
 container:
   imagePullSecrets: 
     - name: technical-secret
+
 ingress:
   enable: true
   metadata:
