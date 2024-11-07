@@ -22,7 +22,7 @@ spec:
 {{- if .Values.containers }}
       containers:
         - name: {{ .Values.containers.name }}
-          image: {{ .Values.containers.image }}:{{.Values.containers.tags}}
+          image: {{ .Values.containers.image }}:{{ .Values.containers.tags }}
 {{- if hasSuffix "latest" .Values.containers.tags }}
           imagePullPolicy: Always
 {{- else }}
