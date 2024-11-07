@@ -7,6 +7,9 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 80
+container:
+  imagePullSecrets: 
+    - name: technical-secret
 ingress:
   enable: true
   metadata:
