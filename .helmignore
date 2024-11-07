@@ -30,7 +30,7 @@
 __pycache__/
 *.class
 
-# excluding folders for pod-manager image : 
+# excluding folders for pods-manager image : 
 scripts/
 
 # excluding documentations : 
