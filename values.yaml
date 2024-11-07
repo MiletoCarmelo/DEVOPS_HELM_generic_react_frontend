@@ -14,7 +14,7 @@ service:
 
 container:
   imagePullSecrets: 
-    - name: technical-secret
+    name: technical-secret
 
 ingress:
   enable: true
