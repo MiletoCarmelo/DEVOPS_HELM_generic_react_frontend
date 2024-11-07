@@ -1,3 +1,5 @@
+technicalSecret:
+  type: "sealedSecret"
 module: react
 environment: generic
 replicas: 1
