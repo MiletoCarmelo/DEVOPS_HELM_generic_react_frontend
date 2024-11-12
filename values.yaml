@@ -4,12 +4,13 @@ dockerRegistry:
   secret:
     name: technical-secret
     type: kubernetes.io/dockerconfigjson
-    data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJUV2xzWlhSdlEyRnliV1ZzYnpwbmFIQmZRbFUxYjBsV1EyRlRPVWRXT0d3MVlWaHBTR3hCUWsweGRuQk1XRFpNTkVjelJtZFMiCiAgICB9CiAgfQp9
+    data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJUV2xzWlhSdlEyRnliV1ZzYnpwbmFIQmZZemgwYkc1UFdXOUtWRFp0YzBZMmFGaE5WekpyY0doclQzazVZblo1TWxOQmVqQkkiCiAgICB9CiAgfQp9
     
 # Configuration du déploiement
 deployment:
   imagePullSecrets:
     - name: technical-secret
+
 
 
 service:
