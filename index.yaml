@@ -14,9 +14,9 @@ entries:
   generic-react-frontend:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-11-08T17:34:25.094800212Z"
+    created: "2024-11-12T15:00:17.630609644Z"
     description: A Helm chart for Kubernetes - Generic
-    digest: cc3b96025bf705af334fbe1b5472459aee9eebcaf993da620a945364da26ed6d
+    digest: 9251035bcab02ff68bc172a6943f07c56fd11fcddc0e2e39c9799344c910ba87
     name: generic-react-frontend
     type: application
     urls:
@@ -32,4 +32,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/MiletoCarmelo/DEVOPS_HELM_generic_react_frontend/github-pages/generic-react-frontend-0.0.1.tgz
     version: 0.0.1
-generated: "2024-11-08T17:34:25.094284893Z"
+generated: "2024-11-12T15:00:17.630124748Z"
