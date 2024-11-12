@@ -1,6 +1,86 @@
-technicalSecret:
-  type: sealedSecret
-  githubSecret: AgA0V6bkbUFqi2uIY1UDVq+tAAkuipk1huWNcHDQkTkCvNKQRh6+JB2E/K7yCrM8QZIvpy72TrA1Pfqu8jXOdzvuGFjtz2+loenCz+Y1KwhSbZMwfzuJTmaa4MH05LvgK9sKGpXo3a/vp2man52wK3cw6P0UTIpjyyFej3TUyPG96uDmMue+a95ZxT++fwbOWfnQ/Um4wMin1Tg9ax+wzGBEl9emQw7ruDzI4ccPz1IQxldodZjQKw5Uj+Z5gpHIWXaxg2j2l3XdJJAQJrYuUkmBLg+37csaQ+iuxwX0a3xCNXaGtpeZqqhol/ekHB7BdWL8yvzDqpB0b+t389sENzCKynTAET60tjN3cn2aXuE/JPHZkM9MC1X/7qJRdAguW7gfDEzvmoEqnBlubMyY18IGPsBIE+yZifkYu29FB4+JJ2XchPLraWtVXYvDs2c5e22jyPxDQp2Vx9akLQIuQvTy8V9UfB/rde8JPyZ61+ncidB4qTUlhw7BDYRlvtV2ZYrsTOZDbkzhjdDYT33fH78A41xKA/Lc5CG4rCf5ffN5Y5rjo9hHDjsBNi/qX20Sx774pkqmYD7DIGZmvZldnRnRDGc8krhB9+6BAcEJA9FhFbTdM+Uvx1ZG8Ba53xeZO/t4JP3AhYN9tq25gJrS6V9aoLXeDJTAN21WrqwD2MFkpLIzqfsikBtqSjenO90/nG+09NMk9vbu3tsKUcPHtFp38SzLTXjZz3J7l1bCLiE0G1kO0dIOB/c40Q4ujA0NhySJwHbbu/VuhuCuUVVwYf5HyKBXf/dxoC8MbL0IYga3B3MWf/jN
+# Configuration du secret Docker pour GitHub Container Registry
+dockerRegistry:
+  enabled: true
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJUV2xzWlhSdlEyRnliV1ZzYnpwbmFIQmZRbFUxYjBsV1EyRlRPVWRXT0d3MVlWaHBTR3hCUWsweGRuQk1XRFpNTkVjelJtZFMiCiAgICB9CiAgfQp9
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJUV2xzWlhSdlEyRnliV1ZzYnpwbmFIQmZRbFUxYjBsV1EyRlRPVWRXT0d3MVlWaHBTR3hCUWsweGRuQk1XRFpNTkVjelJtZFMiCiAgICB9CiAgfQp9
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJUV2xzWlhSdlEyRnliV1ZzYnpwbmFIQmZRbFUxYjBsV1EyRlRPVWRXT0d3MVlWaHBTR3hCUWsweGRuQk1XRFpNTkVjelJtZFMiCiAgICB9CiAgfQp9
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: 
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: 
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJMVzRnVFdsc1pYUnZRMkZ5YldWc2J6b0siLAogICAgICAiZW1haWwiOiAiY2FybWVsby5taWxldG9AZ21haWwuY29tIgogICAgfQogIH0KfQo=
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: 
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
+  secret:
+    name: technical-secret
+    type: kubernetes.io/dockerconfigjson
+    data: 
+    
+# Configuration du déploiement
+deployment:
+  imagePullSecrets:
+    - name: technical-secret
+
   
 module: react
 environment: generic
