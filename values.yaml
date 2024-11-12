@@ -13,6 +13,10 @@ deployment:
 
 
 
+
+module: react
+environment: generic
+replicas: 1
 service:
   type: ClusterIP
   port: 80
@@ -31,4 +35,3 @@ ingress:
 #  host: myhost
   spec:
       path: /
-      pathType: Prefix
