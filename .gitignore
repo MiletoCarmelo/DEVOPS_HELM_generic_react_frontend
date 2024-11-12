@@ -26,4 +26,8 @@ replay_pid*
 
 .env
 *.env
+# enlever tous les fichiers contenant des secrets
 *secret*.sh
+# Ne pas ignorer le fichier 'values.yaml'
+!values.yaml
+!scripts/create-secret-script.sh
