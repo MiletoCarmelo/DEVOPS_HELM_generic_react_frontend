@@ -9,8 +9,8 @@ dockerRegistry:
 # Configuration du déploiement
 deployment:
   imagePullSecrets:
-    - name: technical-secret
-      namespace: dev
+    name: technical-secret
+    namespace: dev
 module: react
 environment: generic
 replicas: 1
