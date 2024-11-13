@@ -15,9 +15,10 @@ spec:
       labels:
         app: {{.Values.module}}-{{ .Values.environment }}
     spec:
-{{- if .Values.container.imagePullSecrets }}
+{{- if .Values.deployment.imagePullSecrets }}
       imagePullSecrets:
-        - name: {{ .Values.container.imagePullSecrets.name }}
+        - name: {{ .Values.deployment.imagePullSecrets.name }}
+          namespace: {{ .Values.deployment.imagePullSecrets.namespace }}
 {{- end}}
 {{- if .Values.containers }}
       containers:
