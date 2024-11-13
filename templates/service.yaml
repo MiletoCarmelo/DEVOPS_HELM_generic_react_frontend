@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.module }}-{{ .Values.environment }}-service
   labels:
     {{-  include "label-generator" . | nindent 4 }}
+    module: {{ .Values.module }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   ports:
