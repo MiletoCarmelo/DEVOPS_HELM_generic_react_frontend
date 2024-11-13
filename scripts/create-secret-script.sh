@@ -174,6 +174,7 @@ kubeseal \
   --controller-namespace=sealed-secrets \
   --controller-name=sealed-secrets \
   --format yaml \
+  --namespace ${NAMESPACE} \
   < temp-secret.yaml > sealed-secret.yaml
   
 
@@ -222,6 +223,7 @@ dockerRegistry:
   enabled: true
   secret:
     name: ${SECRET_NAME}
+    namespace: ${NAMESPACE}
     type: kubernetes.io/dockerconfigjson
     data: ${DOCKER_CONFIG}
     
@@ -229,6 +231,7 @@ dockerRegistry:
 deployment:
   imagePullSecrets:
     - name: ${SECRET_NAME}
+      namespace: ${NAMESPACE}
 
 EOF
 
