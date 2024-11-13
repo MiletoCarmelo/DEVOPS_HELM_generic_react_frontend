@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.module }}-deployment
   labels:
     {{- include "label-generator" . | nindent 4 }}
     module: {{ .Values.module }}
+  name: {{ .Values.module }}-{{ .Values.environment }}-deployment
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.module }}
+      app: {{ .Values.module }}-{{ .Values.environment }}
   template:
     metadata:
       labels:
-        app: {{ .Values.module }}
+        app: {{ .Values.module }}-{{ .Values.environment }}
     spec:
-      {{- if .Values.deployment.imagePullSecrets }}
+{{- if .Values.deployment.imagePullSecrets }}
       imagePullSecrets:
         - name: {{ .Values.deployment.imagePullSecrets.name }}
-      {{- end }}
-      {{- if .Values.containers }}
+{{- end }}
+{{- if .Values.containers }}
       containers:
         {{- with .Values.containers }}
         - name: {{ .name | default "react-app" }}
