@@ -19,7 +19,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.deployment.imagePullSecrets.name }}
       {{- end }}
-      {{- if .Values.containers }}
+      {{- if .Values.containers.name }}
       containers:
         - name: {{ .Values.containers.name }}
           image: {{ .Values.containers.image }}:{{ .Values.containers.tags }}
