@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.module }}-{{ .Values.environment }}-service
   labels:
-    {{- include "label-generator" . | nindent 2 }}
+    - {{- include "label-generator" . | nindent 2 }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   ports:
