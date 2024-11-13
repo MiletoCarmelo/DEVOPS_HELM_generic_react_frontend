@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-service
   labels:
-    {{-  include "label-generator" . | nindent 4 }}
+    {{- include "label-generator" . | nindent 2 }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   ports:

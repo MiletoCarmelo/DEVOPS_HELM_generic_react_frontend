@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    {{-  include "label-generator" . | nindent 4 }}
-    module: {{ .Values.module }}
   name: {{ .Values.module }}-deployment
+  labels:
+    {{- include "label-generator" . | nindent 2 }}
+    module: {{ .Values.module }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{.Values.module}}-{{ .Values.environment }}
+      app: {{ .Values.module }}-{{ .Values.environment }}
   template:
     metadata:
       labels:
-        app: {{.Values.module}}-{{ .Values.environment }}
+        app: {{ .Values.module }}-{{ .Values.environment }}
     spec:
-{{- if .Values.deployment.imagePullSecrets }}
+      {{- if .Values.deployment.imagePullSecrets }}
       imagePullSecrets:
         - name: {{ .Values.deployment.imagePullSecrets.name }}
-{{- end}}
-{{- if .Values.containers }}
+      {{- end }}
       containers:
         - name: {{ .Values.containers.name }}
           image: {{ .Values.containers.image }}:{{ .Values.containers.tags }}
@@ -27,7 +26,7 @@ spec:
           imagePullPolicy: Always
           {{- else }}
           imagePullPolicy: IfNotPresent
-          {{- end}}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.containers.ports.containerPort }}
@@ -37,7 +36,6 @@ spec:
               memory: {{ .Values.containers.resources.requests.memory }}
               cpu: {{ .Values.containers.resources.requests.cpu }}
             limits:
-              memory: {{ .Values.containers.resources.limits.memory  }}
-              cpu: {{  .Values.containers.resources.limits.cpu }} 
+              memory: {{ .Values.containers.resources.limits.memory }}
+              cpu: {{ .Values.containers.resources.limits.cpu }}
           {{- end }}
-{{- end }}
