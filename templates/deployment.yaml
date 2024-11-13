@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{- include "label-generator" . | nindent 4 }}
+    {{-  include "label-generator" . | nindent 4 }}
     module: {{ .Values.module }}
   name: {{ .Values.module }}-{{ .Values.environment }}-deployment
 spec:
@@ -15,23 +15,29 @@ spec:
       labels:
         app: {{ .Values.module }}-{{ .Values.environment }}
     spec:
-{{- if .Values.deployment.imagePullSecrets }}
+{{- if .Values.technicalSecret }}
       imagePullSecrets:
-        - name: {{ .Values.deployment.imagePullSecrets.name }}
-{{- end }}
+        - name: {{ .Values.technicalSecret.name }}
+{{- end}}
 {{- if .Values.containers }}
       containers:
-        {{- with .Values.containers }}
-        - name: {{ .name | default "react-app" }}
-          image: {{ .image }}:{{ .tags | default "latest" }}
-          {{- if .ports }}
+        - name: {{ .Values.containers.name }}
+          image: {{ .Values.containers.image }}:{{ .Values.containers.tags }}
+{{- if hasSuffix "latest" .Values.containers.tags }}
+          imagePullPolicy: Always
+{{- else }}
+          imagePullPolicy: IfNotPresent
+{{- end}}
           ports:
             - name: http
-              containerPort: {{ .ports.containerPort }}
-          {{- end }}
-          {{- if .resources }}
+              containerPort: {{ .Values.containers.ports.containerPort }} # Cela doit être le port que votre app écoute
+{{- if .Values.containers.resources }}
           resources:
-            {{- toYaml .resources | nindent 12 }}
-          {{- end }}
-        {{- end }}
-      {{- end }}
+            requests:
+              memory: {{ .Values.containers.resources.requests.memory }}
+              cpu: {{ .Values.containers.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.containers.resources.limits.memory  }}
+              cpu: {{  .Values.containers.resources.limits.cpu }}
+{{- end }}
+{{- end }}
