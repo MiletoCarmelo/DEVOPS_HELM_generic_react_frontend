@@ -18,7 +18,6 @@ spec:
 {{- if .Values.deployment.imagePullSecrets }}
       imagePullSecrets:
         - name: {{ .Values.deployment.imagePullSecrets.name }}
-          namespace: {{ .Values.deployment.imagePullSecrets.namespace }}
 {{- end}}
 {{- if .Values.containers }}
       containers:
