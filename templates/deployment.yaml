@@ -15,23 +15,23 @@ spec:
       labels:
         app: {{ .Values.module }}-{{ .Values.environment }}
     spec:
-      {{- if .Values.deployment.imagePullSecrets }}
+{{- if .Values.deployment.imagePullSecrets }}
       imagePullSecrets:
         - name: {{ .Values.deployment.imagePullSecrets.name }}
-      {{- end }}
-      {{- if .Values.containers.name }}
+{{- end }}
+{{- if .Values.containers }}
       containers:
         - name: {{ .Values.containers.name }}
           image: {{ .Values.containers.image }}:{{ .Values.containers.tags }}
-          {{- if hasSuffix "latest" .Values.containers.tags }}
+{{- if hasSuffix "latest" .Values.containers.tags }}
           imagePullPolicy: Always
-          {{- else }}
+{{- else }}
           imagePullPolicy: IfNotPresent
-          {{- end }}
+{{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.containers.ports.containerPort }}
-          {{- if .Values.containers.resources }}
+{{- if .Values.containers.resources }}
           resources:
             requests:
               memory: {{ .Values.containers.resources.requests.memory }}
@@ -39,5 +39,5 @@ spec:
             limits:
               memory: {{ .Values.containers.resources.limits.memory }}
               cpu: {{ .Values.containers.resources.limits.cpu }}
-          {{- end }}
-      {{- end }}
+{{- end }}
+{{- end }}
