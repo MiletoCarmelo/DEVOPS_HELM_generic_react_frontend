@@ -226,20 +226,18 @@ dockerRegistry:
     namespace: ${NAMESPACE}
     type: kubernetes.io/dockerconfigjson
     data: ${DOCKER_CONFIG}
-    
 # Configuration du déploiement
 deployment:
   imagePullSecrets:
     - name: ${SECRET_NAME}
       namespace: ${NAMESPACE}
-
 EOF
 
     # Ajouter le reste du contenu existant s'il existe
     if [ -f values.yaml ]; then
         echo "Fusion avec le values.yaml existant..."
         # Ignorer les 3 premières lignes (supposées être les commentaires) et ajouter le reste
-        tail -n +13 values.yaml >> values.yaml.new
+        tail -n +14 values.yaml >> values.yaml.new
         mv values.yaml.new values.yaml
         echo "✅ values.yaml mis à jour avec succès"
     else

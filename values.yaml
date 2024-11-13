@@ -3,17 +3,14 @@ dockerRegistry:
   enabled: true
   secret:
     name: technical-secret
+    namespace: dev
     type: kubernetes.io/dockerconfigjson
     data: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJUV2xzWlhSdlEyRnliV1ZzYnpwbmFIQmZZemgwYkc1UFdXOUtWRFp0YzBZMmFGaE5WekpyY0doclQzazVZblo1TWxOQmVqQkkiCiAgICB9CiAgfQp9
-    
 # Configuration du déploiement
 deployment:
   imagePullSecrets:
-    name: technical-secret
-
-
-
-
+    - name: technical-secret
+      namespace: dev
 module: react
 environment: generic
 replicas: 1
