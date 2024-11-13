@@ -11,10 +11,6 @@ deployment:
   imagePullSecrets:
     name: technical-secret
     namespace: dev
-container:
-  imagePullSecrets: 
-    name: technical-secret
-module: react
 environment: generic
 replicas: 1
 service:

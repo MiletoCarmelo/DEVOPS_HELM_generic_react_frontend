@@ -231,9 +231,6 @@ deployment:
   imagePullSecrets:
     name: ${SECRET_NAME}
     namespace: ${NAMESPACE}
-container:
-  imagePullSecrets: 
-    name: ${SECRET_NAME}
 EOF
 
     # Ajouter le reste du contenu existant s'il existe
