@@ -230,7 +230,6 @@ dockerRegistry:
 deployment:
   imagePullSecrets:
     name: ${SECRET_NAME}
-    namespace: ${NAMESPACE}
 EOF
 
     # Ajouter le reste du contenu existant s'il existe
