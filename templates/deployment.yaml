@@ -5,6 +5,7 @@ metadata:
     {{-  include "label-generator" . | nindent 4 }}
     module: {{ .Values.module }}
   name: {{ .Values.module }}-{{ .Values.environment }}-deployment
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
