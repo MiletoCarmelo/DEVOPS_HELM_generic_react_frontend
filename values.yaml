@@ -10,7 +10,7 @@ dockerRegistry:
 deployment:
   imagePullSecrets:
     name: technical-secret
-environment: generic
+    namespace: dev
 replicas: 1
 service:
   type: ClusterIP
