@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    - {{-  include "label-generator" . | nindent 4 }}
-      module: {{ .Values.module }}
+    {{-  include "label-generator" . | nindent 4 }}
+    module: {{ .Values.module }}
   name: {{ .Values.module }}-{{ .Values.environment }}-deployment
   namespace: {{ .Values.namespace }}
 spec:
