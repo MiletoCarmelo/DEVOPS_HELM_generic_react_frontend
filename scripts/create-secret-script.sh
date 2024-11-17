@@ -20,6 +20,54 @@ else
 fi
 echo " => important to know for the base64 command"
 
+
+# Vérifier si kubeseal est installé
+if ! command -v kubeseal &> /dev/null; then
+    echo "❌ kubeseal n'est pas installé. Installation..."
+    
+    # Pour Linux
+    if [ "$OS_TYPE" = "Linux" ]; then
+        # Détecter l'architecture
+        ARCH=$(uname -m)
+        case $ARCH in
+            armv7l|armv6l)
+                # Pour Raspberry Pi
+                echo "📱 Architecture ARM détectée (Raspberry Pi)"
+                KUBESEAL_VERSION=$(curl -s https://api.github.com/repos/bitnami-labs/sealed-secrets/releases/latest | grep '"tag_name":' | cut -d'"' -f4)
+                wget "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION#v}-linux-arm.tar.gz"
+                tar -xvzf "kubeseal-${KUBESEAL_VERSION#v}-linux-arm.tar.gz" kubeseal
+                sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+                rm -f "kubeseal-${KUBESEAL_VERSION#v}-linux-arm.tar.gz" kubeseal
+                ;;
+            aarch64)
+                # Pour Raspberry Pi 64-bit
+                echo "📱 Architecture ARM64 détectée"
+                KUBESEAL_VERSION=$(curl -s https://api.github.com/repos/bitnami-labs/sealed-secrets/releases/latest | grep '"tag_name":' | cut -d'"' -f4)
+                wget "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION#v}-linux-arm64.tar.gz"
+                tar -xvzf "kubeseal-${KUBESEAL_VERSION#v}-linux-arm64.tar.gz" kubeseal
+                sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+                rm -f "kubeseal-${KUBESEAL_VERSION#v}-linux-arm64.tar.gz" kubeseal
+                ;;
+            x86_64)
+                # Pour les PC standard
+                KUBESEAL_VERSION=$(curl -s https://api.github.com/repos/bitnami-labs/sealed-secrets/releases/latest | grep '"tag_name":' | cut -d'"' -f4)
+                wget "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION#v}-linux-amd64.tar.gz"
+                tar -xvzf "kubeseal-${KUBESEAL_VERSION#v}-linux-amd64.tar.gz" kubeseal
+                sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+                rm -f "kubeseal-${KUBESEAL_VERSION#v}-linux-amd64.tar.gz" kubeseal
+                ;;
+        esac
+        echo "✅ kubeseal installé avec succès"
+    # Pour MacOS
+    elif [ "$OS_TYPE" = "Darwin" ]; then
+        brew install kubeseal
+        echo "✅ kubeseal installé avec succès"
+    else
+        echo "❌ Système d'exploitation non supporté pour l'installation automatique de kubeseal"
+        exit 1
+    fi
+fi
+
 echo 
 echo "🔒 Création d'un secret Docker pour GitHub Container Registry"
 
@@ -146,6 +194,8 @@ if [[ "$OS_TYPE" == "Darwin" ]]; then
     DOCKER_CONFIG_B64=$( printf "%s" "${DOCKER_JSON}" | base64 )
 elif [[ "$OS_TYPE" == "Linux" ]]; then
      DOCKER_CONFIG_B64=$( echo -n "${DOCKER_JSON}" | base64 )
+     # S'assurer que DOCKER_CONFIG_B64 est sur une seule ligne
+     DOCKER_CONFIG_B64=$(echo "${DOCKER_CONFIG_B64}" | tr -d '\n')
 else
      DOCKER_CONFIG_B64=$( echo -n "${DOCKER_JSON}" | base64 )
 fi
@@ -166,18 +216,60 @@ data:
   .dockerconfigjson: ${DOCKER_CONFIG_B64}
 EOF
 
+# Vérifier le contenu du temp-secret.yaml avant kubeseal
+echo "🔍 Vérification du fichier temporaire..."
+if [ ! -f temp-secret.yaml ] || [ ! -s temp-secret.yaml ]; then
+    echo "❌ Erreur: temp-secret.yaml n'existe pas ou est vide"
+    cat temp-secret.yaml
+    rm -f temp-secret.yaml
+    exit 1
+fi
+
+# Vérifier la validité du YAML avec plus de détails
+echo "🔍 Test de la validité du YAML avec kubectl..."
+if ! kubectl apply --dry-run=client -f temp-secret.yaml -v=8 2>&1; then
+    echo "❌ Erreur lors de la validation kubectl"
+    echo "📄 Contenu du fichier temp-secret.yaml :"
+    cat temp-secret.yaml
+    echo
+    echo "🔍 Vérification de l'encodage..."
+    file temp-secret.yaml
+    echo
+    echo "🔍 Vérification du base64..."
+    echo ${DOCKER_CONFIG_B64} | base64 -d
+    rm -f temp-secret.yaml
+    exit 1
+fi
+
+echo "📄 Contenu du secret temporaire :"
+cat temp-secret.yaml
+echo
+
 
 # Créer le sealed secret
 echo "🔒 Création du sealed secret..."
-kubeseal \
+if ! kubeseal \
   --scope namespace-wide \
   --controller-namespace=sealed-secrets \
   --controller-name=sealed-secrets \
   --format yaml \
   --namespace ${NAMESPACE} \
-  < temp-secret.yaml > sealed-secret.yaml
-  
+  < temp-secret.yaml > sealed-secret.yaml 2>/tmp/kubeseal_error; then
+    
+    echo "❌ Erreur lors de la création du sealed secret:"
+    cat /tmp/kubeseal_error
+    rm /tmp/kubeseal_error
 
+    # Nettoyage des fichiers temporaires
+    echo "🧹 Nettoyage des fichiers temporaires..."
+    rm -f temp-secret.yaml sealed-secret.yaml config.json original-secret.yaml 2>/dev/null
+    
+    echo "⛔ Arrêt du script suite à l'erreur de kubeseal"
+    exit 1
+fi
+
+# Si on arrive ici, c'est que kubeseal a réussi
+echo "✅ Sealed secret créé avec succès"
 # Si sealed-secret.yaml n'existe pas, exiter
 if [ ! -f "sealed-secret.yaml" ]; then
     echo "❌ Erreur: sealed-secret.yaml n'a pas été créé"
