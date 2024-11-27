@@ -27,4 +27,4 @@ ingress:
 #      cert-manager.io/cluster-issuer: nameOfClusterIssuer
 #  host: myhost
   spec:
-      path: /
+    path: /
